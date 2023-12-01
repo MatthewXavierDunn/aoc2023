@@ -1,4 +1,4 @@
-use std::io::{BufReader, stdin, BufRead, ErrorKind};
+use std::io::{BufReader, stdin, BufRead};
 
 mod trebuchet;
 
