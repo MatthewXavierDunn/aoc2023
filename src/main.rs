@@ -16,7 +16,7 @@ fn main() -> std::io::Result<()> {
     let stdin = stdin().lock();
     let lines = BufReader::new(stdin).lines();
     match n.as_str() {
-        "1" => Trebuchet::solve(lines),
+        "1" | "trebuchet" => Trebuchet::solve(lines),
         _ => Err(ErrorKind::Unsupported.into()),
     }
 }
