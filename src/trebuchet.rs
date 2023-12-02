@@ -7,8 +7,8 @@ const NUMERICS: [&str; 9] = [
 fn parse_non_zero_u8(c: char) -> Option<NonZeroU8> {
     if c.is_ascii_digit() && c != '0' {
         return Some(unsafe {
-            // Safety: since we have found a non-zero numeric character, conversion to a digit will
-            // always be safe.
+            // Safety: since we have found a non-zero numeric character, conversion to a non-zero
+            // digit will always be safe.
             NonZeroU8::new_unchecked(c.to_digit(10).unwrap_unchecked() as u8)
         });
     }
@@ -62,11 +62,12 @@ fn get_calibration(
     forwards: impl Fn(&str) -> Option<NonZeroU8>,
     backwards: impl Fn(&str) -> Option<NonZeroU8>,
 ) -> u64 {
-    let mut sum = 0;
+    let mut calibration = 0;
     while let Some(Ok(line)) = lines.next() {
         if line.is_empty() {
             break;
         }
+
         let mut line = line.as_str();
         let mut first = None;
         while !line.is_empty() {
@@ -74,7 +75,9 @@ fn get_calibration(
                 first = Some(n);
                 break;
             }
-            line = line.get(1..).unwrap_or("");
+            // Safety: since the line is not empty, we know that it is possible to still get a
+            // slice from the first index.
+            line = unsafe { line.get(1..).unwrap_unchecked() };
         }
 
         let mut last = first;
@@ -83,14 +86,16 @@ fn get_calibration(
                 last = Some(n);
                 break;
             }
-            line = line.get(..line.len() - 1).unwrap_or("");
+            // Safety: since the line is not empty, we know that it is possible to still get a
+            // slice up to the penultimate index.
+            line = unsafe { line.get(..line.len() - 1).unwrap_unchecked() };
         }
 
         if let (Some(first), Some(last)) = (first, last) {
-            sum += (first.get() * 10 + last.get()) as u64;
+            calibration += (first.get() * 10 + last.get()) as u64;
         }
     }
-    sum
+    calibration
 }
 
 pub fn part1(lines: impl Iterator<Item = std::io::Result<String>>) {
