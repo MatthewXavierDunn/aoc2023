@@ -46,34 +46,27 @@ fn parse_games(lines: impl Iterator<Item = std::io::Result<String>>) -> impl Ite
 }
 
 pub fn part1(lines: impl Iterator<Item = std::io::Result<String>>) {
-    let mut game_id_sum = 0;
-    for game in parse_games(lines) {
-        let mut is_valid = true;
-        for set in game.sets {
-            if set.red > 12 || set.green > 13 || set.blue > 14 {
-                is_valid = false;
-                break;
-            }
-        }
-        if is_valid {
-            game_id_sum += game.game_id;
-        }
-    }
+    let game_id_sum = parse_games(lines).fold(0, |sum, game| {
+        sum + game
+            .sets
+            .iter()
+            .all(|set| set.red <= 12 && set.green <= 13 && set.blue <= 14)
+            .then_some(game.game_id)
+            .unwrap_or_default()
+    });
     println!("{game_id_sum}");
 }
 
 pub fn part2(lines: impl Iterator<Item = std::io::Result<String>>) {
-    let mut power_sum = 0;
-    for game in parse_games(lines) {
-        let mut max_red = 0;
-        let mut max_green = 0;
-        let mut max_blue = 0;
-        for set in game.sets {
-            max_red = max_red.max(set.red);
-            max_green = max_green.max(set.green);
-            max_blue = max_blue.max(set.blue);
-        }
-        power_sum += max_red * max_green * max_blue;
-    }
+    let power_sum = parse_games(lines).fold(0, |sum, game| {
+        sum + game
+            .sets
+            .iter()
+            .fold([0, 0, 0], |[red, green, blue], set| {
+                [red.max(set.red), green.max(set.green), blue.max(set.blue)]
+            })
+            .iter()
+            .product::<u32>()
+    });
     println!("{power_sum}");
 }
