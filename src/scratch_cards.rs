@@ -1,7 +1,7 @@
 fn wins(lines: impl Iterator<Item = String>) -> impl Iterator<Item = u32> {
     lines.map(|line| {
-        let (_, line) = line.split_once(": ").unwrap();
-        let (available, winning) = line.split_once(" | ").unwrap();
+        let (_, line) = line.split_once(':').unwrap();
+        let (available, winning) = line.split_once('|').unwrap();
         let available = available
             .split_whitespace()
             .map(|num_string| num_string.parse::<u32>().unwrap())
