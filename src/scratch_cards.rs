@@ -1,9 +1,5 @@
-pub fn part1(mut lines: impl Iterator<Item = std::io::Result<String>>) {
-    let mut sum = 0;
-    while let Some(Ok(line)) = lines.next() {
-        if line.is_empty() {
-            break;
-        }
+fn wins(lines: impl Iterator<Item = String>) -> impl Iterator<Item = u32> {
+    lines.map(|line| {
         let (_, line) = line.split_once(": ").unwrap();
         let (available, winning) = line.split_once(" | ").unwrap();
         let available = available
@@ -18,40 +14,30 @@ pub fn part1(mut lines: impl Iterator<Item = std::io::Result<String>>) {
             .fold(0u128, |nums, n| {
                 nums | (1 << n)
             });
-        let wins = (available & winning).count_ones();
+        (available & winning).count_ones()
+    })
+}
+
+pub fn part1(lines: impl Iterator<Item = String>) {
+    let sum = wins(lines).fold(0u32, |sum, wins| {
         if wins != 0 {
-            sum += 1 << (wins - 1);
+            return sum + (1 << (wins - 1));
         }
-    }
+        sum
+    });
     println!("{sum}");
 }
 
-pub fn part2(mut lines: impl Iterator<Item = std::io::Result<String>>) {
-    let mut multipliers = [1; 201];
-    while let Some(Ok(line)) = lines.next() {
-        if line.is_empty() {
-            break;
-        }
-        let (card, line) = line.split_once(": ").unwrap();
-        let card_number = card.strip_prefix("Card").unwrap().trim_start().parse::<usize>().unwrap() - 1;
-        let (available, winning) = line.split_once(" | ").unwrap();
-        let available = available
-            .split_whitespace()
-            .map(|num_string| num_string.parse::<u32>().unwrap())
-            .fold(0u128, |nums, n| {
-                nums | (1 << n)
-            });
-        let winning = winning
-            .split_whitespace()
-            .map(|num_string| num_string.parse::<u32>().unwrap())
-            .fold(0u128, |nums, n| {
-                nums | (1 << n)
-            });
-        let wins = (available & winning).count_ones();
+pub fn part2(lines: impl Iterator<Item = String>) {
+    let mut multipliers = [1; 11];
+    let sum = wins(lines).fold(0, |mut sum, wins| {
+        sum += multipliers[0];
         for n in 0..wins {
-            multipliers[card_number + n as usize + 1] += multipliers[card_number];
+            multipliers[n as usize + 1] += multipliers[0];
         }
-    }
-    let sum: u32 = multipliers.into_iter().sum();
+        multipliers.copy_within(1.., 0);
+        *multipliers.last_mut().unwrap() = 1;
+        sum
+    });
     println!("{sum}");
 }
