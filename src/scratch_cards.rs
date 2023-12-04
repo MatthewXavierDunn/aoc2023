@@ -26,7 +26,7 @@ pub fn part1(lines: impl Iterator<Item = String>) {
 
 pub fn part2(lines: impl Iterator<Item = String>) {
     let mut multipliers = [1; 11];
-    let sum = wins(lines).fold(0, |mut sum, wins| {
+    let sum = wins(lines).fold(0u32, |mut sum, wins| {
         sum += multipliers[0];
         for n in 0..wins {
             multipliers[n as usize + 1] += multipliers[0];
