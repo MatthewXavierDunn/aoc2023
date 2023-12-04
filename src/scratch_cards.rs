@@ -5,15 +5,11 @@ fn wins(lines: impl Iterator<Item = String>) -> impl Iterator<Item = u32> {
         let available = available
             .split_whitespace()
             .map(|num_string| num_string.parse::<u32>().unwrap())
-            .fold(0u128, |nums, n| {
-                nums | (1 << n)
-            });
+            .fold(0u128, |nums, n| nums | (1 << n));
         let winning = winning
             .split_whitespace()
             .map(|num_string| num_string.parse::<u32>().unwrap())
-            .fold(0u128, |nums, n| {
-                nums | (1 << n)
-            });
+            .fold(0u128, |nums, n| nums | (1 << n));
         (available & winning).count_ones()
     })
 }
