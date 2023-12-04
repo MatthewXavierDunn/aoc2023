@@ -37,15 +37,11 @@ fn parse_game(string: &str) -> Game {
     Game { game_id, sets }
 }
 
-fn parse_games(lines: impl Iterator<Item = std::io::Result<String>>) -> impl Iterator<Item = Game> {
-    lines.filter_map(|line| {
-        line.ok()
-            .filter(|line| !line.is_empty())
-            .map(|line| parse_game(&line))
-    })
+fn parse_games(lines: impl Iterator<Item = String>) -> impl Iterator<Item = Game> {
+    lines.map(|line| parse_game(&line))
 }
 
-pub fn part1(lines: impl Iterator<Item = std::io::Result<String>>) {
+pub fn part1(lines: impl Iterator<Item = String>) {
     let game_id_sum = parse_games(lines).fold(0, |sum, game| {
         sum + game
             .sets
@@ -57,7 +53,7 @@ pub fn part1(lines: impl Iterator<Item = std::io::Result<String>>) {
     println!("{game_id_sum}");
 }
 
-pub fn part2(lines: impl Iterator<Item = std::io::Result<String>>) {
+pub fn part2(lines: impl Iterator<Item = String>) {
     let power_sum = parse_games(lines).fold(0, |sum, game| {
         sum + game
             .sets

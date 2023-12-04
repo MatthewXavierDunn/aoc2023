@@ -74,12 +74,9 @@ fn get_neighbours(r: usize, c: usize, grid: &Vec<Vec<char>>) -> Neighbours {
     }
 }
 
-fn prepare_grid(mut lines: impl Iterator<Item = std::io::Result<String>>) -> Vec<Vec<char>> {
+fn prepare_grid(mut lines: impl Iterator<Item = String>) -> Vec<Vec<char>> {
     let mut grid = Vec::new();
-    while let Some(Ok(line)) = lines.next() {
-        if line.is_empty() {
-            break;
-        }
+    while let Some(line) = lines.next() {
         let mut row = Vec::with_capacity(ROW_LENGTH);
         row.extend(line.chars());
         grid.push(row);
@@ -87,7 +84,7 @@ fn prepare_grid(mut lines: impl Iterator<Item = std::io::Result<String>>) -> Vec
     grid
 }
 
-pub fn part1(lines: impl Iterator<Item = std::io::Result<String>>) {
+pub fn part1(lines: impl Iterator<Item = String>) {
     let grid = prepare_grid(lines);
     let mut sum = 0;
     for (r, row) in grid.iter().enumerate() {
@@ -147,7 +144,7 @@ fn get_number(r: usize, c: usize, grid: &Vec<Vec<char>>) -> u32 {
         .unwrap();
 }
 
-pub fn part2(lines: impl Iterator<Item = std::io::Result<String>>) {
+pub fn part2(lines: impl Iterator<Item = String>) {
     let grid = prepare_grid(lines);
     let mut sum = 0;
     for (r, row) in grid.iter().enumerate() {

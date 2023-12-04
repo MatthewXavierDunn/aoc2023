@@ -58,16 +58,12 @@ fn parse_ciremun(string: &str) -> Option<NonZeroU8> {
 }
 
 fn get_calibration(
-    mut lines: impl Iterator<Item = std::io::Result<String>>,
+    mut lines: impl Iterator<Item = String>,
     forwards: impl Fn(&str) -> Option<NonZeroU8>,
     backwards: impl Fn(&str) -> Option<NonZeroU8>,
 ) -> u64 {
     let mut calibration = 0;
-    while let Some(Ok(line)) = lines.next() {
-        if line.is_empty() {
-            break;
-        }
-
+    while let Some(line) = lines.next() {
         let mut line = line.as_str();
         let mut first = None;
         while !line.is_empty() {
@@ -98,12 +94,12 @@ fn get_calibration(
     calibration
 }
 
-pub fn part1(lines: impl Iterator<Item = std::io::Result<String>>) {
+pub fn part1(lines: impl Iterator<Item = String>) {
     let calibration = get_calibration(lines, parse_digit, parse_tigid);
     println!("{calibration}");
 }
 
-pub fn part2(lines: impl Iterator<Item = std::io::Result<String>>) {
+pub fn part2(lines: impl Iterator<Item = String>) {
     let calibration = get_calibration(lines, parse_numeric, parse_ciremun);
     println!("{calibration}");
 }
