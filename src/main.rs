@@ -7,6 +7,7 @@ mod cube_conundrum;
 mod gear_ratios;
 mod scratch_cards;
 mod trebuchet;
+mod seed_fertilizer;
 
 fn main() -> std::io::Result<()> {
     let mut args = args().skip(1);
@@ -14,8 +15,7 @@ fn main() -> std::io::Result<()> {
     let stdin = stdin().lock();
     let lines = BufReader::new(stdin)
         .lines()
-        .flatten()
-        .take_while(|line| !line.is_empty());
+        .flatten();
     match n.as_str() {
         "1-1" | "trebuchet-part1" => trebuchet::part1(lines),
         "1-2" | "trebuchet-part2" => trebuchet::part2(lines),
@@ -25,6 +25,8 @@ fn main() -> std::io::Result<()> {
         "3-2" | "gear-ratios-part2" => gear_ratios::part2(lines),
         "4-1" | "scratch-cards-part1" => scratch_cards::part1(lines),
         "4-2" | "scratch-cards-part2" => scratch_cards::part2(lines),
+        "5-1" | "seed-fertilizer-part1" => seed_fertilizer::part1(lines),
+        "5-2" | "seed-fertilizer-part2" => seed_fertilizer::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
