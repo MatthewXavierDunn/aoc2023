@@ -3,6 +3,7 @@ use std::{
     io::{stdin, BufRead, BufReader},
 };
 
+mod camel_cards;
 mod cube_conundrum;
 mod gear_ratios;
 mod scratch_cards;
@@ -28,6 +29,8 @@ fn main() -> std::io::Result<()> {
         "5-2" | "seed-fertilizer-part2" => seed_fertilizer::part2(lines),
         "6-1" | "wait-for-it-part1" => wait_for_it::part1(lines),
         "6-2" | "wait-for-it-part2" => wait_for_it::part2(lines),
+        "7-1" | "camel-cards-part1" => camel_cards::part1(lines),
+        "7-2" | "camel-cards-part2" => camel_cards::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
