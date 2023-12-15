@@ -6,11 +6,12 @@ use std::{
 mod camel_cards;
 mod cube_conundrum;
 mod gear_ratios;
+mod haunted_wasteland;
+mod mirage_maintenance;
 mod scratch_cards;
 mod seed_fertilizer;
 mod trebuchet;
 mod wait_for_it;
-mod haunted_wasteland;
 
 fn main() -> std::io::Result<()> {
     let mut args = args().skip(1);
@@ -34,6 +35,8 @@ fn main() -> std::io::Result<()> {
         "7-2" | "camel-cards-part2" => camel_cards::part2(lines),
         "8-1" | "haunted-wasteland-part1" => haunted_wasteland::part1(lines),
         "8-2" | "haunted-wasteland-part2" => haunted_wasteland::part2(lines),
+        "9-1" | "mirage-maintenance-part1" => mirage_maintenance::part1(lines),
+        "9-2" | "mirage-maintenance-part2" => mirage_maintenance::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
