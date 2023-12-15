@@ -10,6 +10,7 @@ mod scratch_cards;
 mod seed_fertilizer;
 mod trebuchet;
 mod wait_for_it;
+mod haunted_wasteland;
 
 fn main() -> std::io::Result<()> {
     let mut args = args().skip(1);
@@ -31,6 +32,8 @@ fn main() -> std::io::Result<()> {
         "6-2" | "wait-for-it-part2" => wait_for_it::part2(lines),
         "7-1" | "camel-cards-part1" => camel_cards::part1(lines),
         "7-2" | "camel-cards-part2" => camel_cards::part2(lines),
+        "8-1" | "haunted-wasteland-part1" => haunted_wasteland::part1(lines),
+        "8-2" | "haunted-wasteland-part2" => haunted_wasteland::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
