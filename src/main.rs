@@ -8,6 +8,7 @@ mod cube_conundrum;
 mod gear_ratios;
 mod haunted_wasteland;
 mod mirage_maintenance;
+mod pipe_maze;
 mod scratch_cards;
 mod seed_fertilizer;
 mod trebuchet;
@@ -15,7 +16,9 @@ mod wait_for_it;
 
 fn main() -> std::io::Result<()> {
     let mut args = args().skip(1);
-    let n = args.next().expect("Expected AoC identifier, e.g. 1-2");
+    let n = args
+        .next()
+        .expect("Expected AoC identifier, e.g. 1-2 for day 1 part 2");
     let stdin = stdin().lock();
     let lines = BufReader::new(stdin).lines().flatten();
     match n.as_str() {
@@ -37,6 +40,8 @@ fn main() -> std::io::Result<()> {
         "8-2" => haunted_wasteland::part2(lines),
         "9-1" => mirage_maintenance::part1(lines),
         "9-2" => mirage_maintenance::part2(lines),
+        "10-1" => pipe_maze::part1(lines),
+        "10-2" => pipe_maze::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
