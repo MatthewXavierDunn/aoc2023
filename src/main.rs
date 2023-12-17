@@ -4,6 +4,7 @@ use std::{
 };
 
 mod camel_cards;
+mod cosmic_expansion;
 mod cube_conundrum;
 mod gear_ratios;
 mod haunted_wasteland;
@@ -42,6 +43,8 @@ fn main() -> std::io::Result<()> {
         "9-2" => mirage_maintenance::part2(lines),
         "10-1" => pipe_maze::part1(lines),
         "10-2" => pipe_maze::part2(lines),
+        "11-1" => cosmic_expansion::part1(lines),
+        "11-2" => cosmic_expansion::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
