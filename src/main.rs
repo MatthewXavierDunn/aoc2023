@@ -18,6 +18,7 @@ mod day12;
 mod day13;
 mod day14;
 mod day15;
+mod day16;
 mod grid;
 
 fn main() -> std::io::Result<()> {
@@ -58,6 +59,8 @@ fn main() -> std::io::Result<()> {
         "14-2" => day14::part2(lines),
         "15-1" => day15::part1(lines),
         "15-2" => day15::part2(lines),
+        "16-1" => day16::part1(lines),
+        "16-2" => day16::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
