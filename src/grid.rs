@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Hash, PartialEq, Eq, Clone)]
 pub struct Grid<T> {
     rows: usize,
     cols: usize,
@@ -42,6 +42,14 @@ impl<T> Grid<T> {
         self.cols = usize::max(self.cols, len);
     }
 
+    pub fn get(&self, row: usize, col: usize) -> Option<&T> {
+        self.data.get(row * self.cols + col)
+    }
+
+    pub fn set(&mut self, row: usize, col: usize, val: T) {
+        self.data[row * self.cols + col] = val;
+    }
+
     pub fn get_col(&self, col: usize) -> impl Iterator<Item = &T> {
         self.data.iter().skip(col).step_by(self.cols)
     }
@@ -56,5 +64,17 @@ impl<T> Grid<T> {
             self.data.insert(col_index, item);
             col_index += self.cols;
         }
+    }
+}
+
+impl<T: std::fmt::Display> std::fmt::Debug for Grid<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        for r in 0..self.rows() {
+            for item in self.get_row(r) {
+                write!(f, "{}", item)?;
+            }
+            write!(f, "\n")?;
+        }
+        Ok(())
     }
 }
