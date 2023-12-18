@@ -10,6 +10,7 @@ mod gear_ratios;
 mod grid;
 mod haunted_wasteland;
 mod hot_springs;
+mod lens_library;
 mod mirage_maintenance;
 mod pipe_maze;
 mod point_of_incidence;
@@ -55,6 +56,8 @@ fn main() -> std::io::Result<()> {
         "13-2" => point_of_incidence::part2(lines),
         "14-1" => reflector_dish::part1(lines),
         "14-2" => reflector_dish::part2(lines),
+        "15-1" => lens_library::part1(lines),
+        "15-2" => lens_library::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
