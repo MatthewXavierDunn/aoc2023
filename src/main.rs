@@ -8,6 +8,7 @@ mod cosmic_expansion;
 mod cube_conundrum;
 mod gear_ratios;
 mod haunted_wasteland;
+mod hot_springs;
 mod mirage_maintenance;
 mod pipe_maze;
 mod scratch_cards;
@@ -45,6 +46,8 @@ fn main() -> std::io::Result<()> {
         "10-2" => pipe_maze::part2(lines),
         "11-1" => cosmic_expansion::part1(lines),
         "11-2" => cosmic_expansion::part2(lines),
+        "12-1" => hot_springs::part1(lines),
+        "12-2" => hot_springs::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
