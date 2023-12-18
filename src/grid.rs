@@ -26,6 +26,12 @@ impl<T> Grid<T> {
         &self.data
     }
 
+    pub fn clear(&mut self) {
+        self.rows = 0;
+        self.cols = 0;
+        self.data.clear();
+    }
+
     pub fn push_row(&mut self, row: impl Iterator<Item = T>) {
         self.rows += 1;
         let mut len = 0;
@@ -38,6 +44,10 @@ impl<T> Grid<T> {
 
     pub fn get_col(&self, col: usize) -> impl Iterator<Item = &T> {
         self.data.iter().skip(col).step_by(self.cols)
+    }
+
+    pub fn get_row(&self, row: usize) -> impl Iterator<Item = &T> {
+        self.data.iter().skip(row * self.cols).take(self.cols)
     }
 
     pub fn insert_col(&mut self, mut col_index: usize, col: impl Iterator<Item = T>) {
