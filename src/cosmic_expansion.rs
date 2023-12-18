@@ -1,48 +1,11 @@
 use std::{fmt::Debug, iter::repeat};
 
+use crate::grid::Grid;
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 enum Tile {
     Empty,
     Galaxy,
-}
-
-#[derive(Debug)]
-struct Grid<T> {
-    rows: usize,
-    cols: usize,
-    data: Vec<T>,
-}
-
-impl<T> Grid<T> {
-    fn new() -> Self {
-        Self {
-            rows: 0,
-            cols: 0,
-            data: Vec::new(),
-        }
-    }
-
-    fn push_row(&mut self, row: impl Iterator<Item = T>) {
-        self.rows += 1;
-        let mut len = 0;
-        for item in row {
-            self.data.push(item);
-            len += 1;
-        }
-        self.cols = usize::max(self.cols, len);
-    }
-
-    fn get_col(&self, col: usize) -> impl Iterator<Item = &T> {
-        self.data.iter().skip(col).step_by(self.cols)
-    }
-
-    fn insert_col(&mut self, mut col_index: usize, col: impl Iterator<Item = T>) {
-        self.cols += 1;
-        for item in col {
-            self.data.insert(col_index, item);
-            col_index += self.cols;
-        }
-    }
 }
 
 pub fn part1(lines: impl Iterator<Item = String>) {
@@ -66,20 +29,20 @@ pub fn part1(lines: impl Iterator<Item = String>) {
         grid
     });
     let mut col = 0;
-    while col < grid.cols {
+    while col < grid.cols() {
         if grid.get_col(col).all(|tile| tile == &Tile::Empty) {
-            grid.insert_col(col, repeat(Tile::Empty).take(grid.rows));
+            grid.insert_col(col, repeat(Tile::Empty).take(grid.rows()));
             col += 1;
         }
         col += 1;
     }
     let galaxies = grid
-        .data
+        .inner()
         .iter()
         .enumerate()
         .fold(Vec::new(), |mut galaxies, (i, tile)| {
             if tile == &Tile::Galaxy {
-                galaxies.push((i / grid.cols, i % grid.cols));
+                galaxies.push((i / grid.cols(), i % grid.cols()));
             }
             galaxies
         });
@@ -116,18 +79,18 @@ pub fn part2(lines: impl Iterator<Item = String>) {
         grid
     });
     let mut expand_cols = Vec::new();
-    for col in 0..grid.cols {
+    for col in 0..grid.cols() {
         if grid.get_col(col).all(|tile| tile == &Tile::Empty) {
             expand_cols.push(col);
         }
     }
     let galaxies = grid
-        .data
+        .inner()
         .iter()
         .enumerate()
         .fold(Vec::new(), |mut galaxies, (i, tile)| {
             if tile == &Tile::Galaxy {
-                galaxies.push((i / grid.cols, i % grid.cols));
+                galaxies.push((i / grid.cols(), i % grid.cols()));
             }
             galaxies
         });
