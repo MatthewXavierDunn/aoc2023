@@ -3,20 +3,21 @@ use std::{
     io::{stdin, BufRead, BufReader},
 };
 
-mod grid;
 mod camel_cards;
 mod cosmic_expansion;
 mod cube_conundrum;
 mod gear_ratios;
+mod grid;
 mod haunted_wasteland;
 mod hot_springs;
 mod mirage_maintenance;
 mod pipe_maze;
+mod point_of_incidence;
+mod reflector_dish;
 mod scratch_cards;
 mod seed_fertilizer;
 mod trebuchet;
 mod wait_for_it;
-mod point_of_incidence;
 
 fn main() -> std::io::Result<()> {
     let mut args = args().skip(1);
@@ -52,6 +53,8 @@ fn main() -> std::io::Result<()> {
         "12-2" => hot_springs::part2(lines),
         "13-1" => point_of_incidence::part1(lines),
         "13-2" => point_of_incidence::part2(lines),
+        "14-1" => reflector_dish::part1(lines),
+        "14-2" => reflector_dish::part2(lines),
         _ => eprintln!("Unexpected AoC identifier '{n}'"),
     };
     Ok(())
